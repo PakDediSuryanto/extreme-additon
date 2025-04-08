@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extreme Addition</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #1a1a1a, #333333);
+            color: white;
+        }
+		
+
+        #container {
+            display: flex;
+            width: 95%;
+            height: auto;
+            background-color: #282828;
+            border-radius: 10px;
+            overflow: visible;
+            border: double white;
+            flex-direction: row;
+        }
+#profile {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: 30px;
+    border: 1px solid white;
+}
+
+#profile img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+#profile span {
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+}
+
+        #left-panel {
+            width: 20%;
+            padding: 20px;
+            border-right: 2px solid #444;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        #left-panel input {
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+            padding: 5px;
+            font-size: 1em;
+            border: 2px solid white;
+            border-radius: 5px;
+            background-color: #585a5c;
+            color: white;
+        }
+
+        #center-panel {
+            width: 50%;
+            padding: 20px;
+            text-align: center;
+        }
+		
+        #center-panel h1 {
+            font-size: 4em;
+            color: #707083;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            text-shadow: 1px -1px 0 #000,  
+            10px -2px 2px black,
+            -4px  2px 0 white,
+            1px  1px 0 rgb(221, 221, 231);
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out, zoomEffect 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomEffect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        #right-panel {
+            width: 20%;
+            padding: 20px;
+            border-left: 2px solid #444;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #difficulty-select{
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #585a5c;
+            border: 2px solid white;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+		#generate-table-button{
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: blue;
+            border: 2px solid white;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+			#set-timer-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: green;
+            border: 2px solid white;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+		   #reset-timer-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: red;
+            border: 2px solid white;
+            color: white;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        #difficulty-select:hover, #generate-table-button:hover, #set-timer-button:hover, #reset-timer-button:hover {
+            background-color: #93ade0;
+        }
+
+        #number-table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        #number-table td {
+            border: 2px solid white;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            width: 60px;
+            height: 60px;
+            background: #333;
+            font-size: 1.2em;
+        }
+
+        #input-container {
+    display: flex;
+    justify-content: center; /* Center input horizontally */
+    margin-bottom: 20px;
+}
+
+#answer-input {
+    text-align: center;
+    font-size: 1.5em;
+    line-height: 1.5em;
+    min-width: 100px;
+    width: min-content; /* Adjust width to fit content */
+    padding: 0 8px; /* Adjust padding for better appearance */
+    box-sizing: border-box;
+    background-color: rgb(75, 70, 70);
+    color: rgb(245, 242, 242);
+    border: 2px solid rgb(247, 243, 243);
+    border-radius: 20px;
+    border-style: outset;
+}
+
+        .calc-button {
+            width: 50px;
+            height: 50px;
+            font-size: 1.2em;
+            background-color: #797692;
+            border: 3px solid white;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            line-height: center;
+            border-radius: 50%;
+            margin: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .calc-button:hover {
+            background-color: rgb(107, 135, 209);
+        }
+
+        #button-container {
+            display: grid;
+            grid-template-columns: repeat(4, 50px);
+            grid-gap: 10px;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            padding: 0;
+            color: #ffcc00;
+        }
+
+        p {
+            font-size: 1.2em;
+        }
+
+        .blink-red {
+            animation: blink-red 0.2s step-start 2;
+        }
+
+        .blink-green {
+            animation: blink-green 0.2s step-start 2;
+        }
+
+        @keyframes blink-red {
+            0% { background-color: red; color: white; }
+            50% { background-color: black; color: white; }
+            100% { background-color: red; color: white; }
+        }
+
+        @keyframes blink-green {
+            0% { background-color: green; color: white; }
+            50% { background-color: black; color: white; }
+            100% { background-color: green; color: white; }
+        }
+
+        #timer {
+			font-size: 4em;
+			margin-bottom: 20px;
+			padding: 20px;
+			border-radius: 10px;
+			color: #ffcc00;
+			text-align: center;
+			font-weight: bold;
+}
+		#timer.seconds-only{ 
+			font-size:4em;
+			color:red;
+			text-align:center;
+			font-weight:bold;
+		}
+		.red-text{
+			color:red;
+		}
+
+        .zoom-effect {
+            animation: zoom 1s ease-in-out infinite;
+            color: red;
+        }
+		
+
+        @keyframes zoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(3); }
+        }
+		
+        @media (max-width: 768px) {
+            #container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            #left-panel, #right-panel {
+                width: 100%;
+            }
+
+            #center-panel {
+                width: 100%;
+            }
+		 
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <!-- Left Panel -->
+        <div id="left-panel">
+            <p>Pilih Tingkat Kesulitan</p>
+            <select id="difficulty-select">
+                <option value="easy">Mudah</option>
+                <option value="normal">Normal</option>
+                <option value="hard">Sulit</option>
+            </select>
+            <p>Masukkan jumlah baris dan kolom</p>
+            <input type="number" id="rows-input" placeholder="Jumlah baris" min="1">
+            <input type="number" id="cols-input" placeholder="Jumlah kolom" min="1">
+            <button id="generate-table-button">Buat Tabel/acak</button>
+            <p>Tentukan Durasi (detik)</p>
+            <input type="number" id="timer-input" placeholder="Durasi Timer (detik)" min="1">
+            <button id="set-timer-button" >MULAI</button>
+            <button id="reset-timer-button" >Stop</button>
+        </div>
+
+        <!-- Center Panel -->
+        <div id="center-panel">
+            <h1>Extreme Addition</h1>
+            <p id="instruction-text" style="display: none;">Jumlahkan seluruh angka di bawah ini:</p>
+            <table id="number-table"></table>
+        </div>
+
+        <!-- Right Panel -->
+		
+		<div id="profile">
+			<img src="image.jpg" alt="Foto Dedi" />
+			<span>Dedi Suryanto</span>
+			</div>
+
+        <div id="right-panel">
+            <div id="timer">00:00</div>
+            <p>Masukkan Jawaban Anda</p>
+            <input type="text" id="answer-input" >
+            <div id="button-container">
+                <button class="calc-button" onclick="appendToAnswerInput('1')">1</button>
+                <button class="calc-button" onclick="appendToAnswerInput('2')">2</button>
+                <button class="calc-button" onclick="appendToAnswerInput('3')">3</button>
+                <button class="calc-button" onclick="appendToAnswerInput('4')">4</button>
+                <button class="calc-button" onclick="appendToAnswerInput('5')">5</button>
+                <button class="calc-button" onclick="appendToAnswerInput('6')">6</button>
+                <button class="calc-button" onclick="appendToAnswerInput('7')">7</button>
+                <button class="calc-button" onclick="appendToAnswerInput('8')">8</button>
+                <button class="calc-button" onclick="appendToAnswerInput('9')">9</button>
+                <button class="calc-button" onclick="appendToAnswerInput('0')">0</button>
+                <button class="calc-button" style="background-color:red" onclick="deleteLastCharacter()">Del</button>
+                <button class="calc-button" style= "background-color: green" onclick="checkAnswer()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+  let tableContainer = document.getElementById('number-table');
+let answerInput = document.getElementById('answer-input');
+let timerDisplay = document.getElementById('timer');
+let timerInterval;
+let timeLeft;
+let correctAnswer;
+const defaultInputWidth = '100px'; // Ukuran default kolom input jawaban
+let audio = new Audio('countdown.mp3');
+
+function getRandomNumber(difficulty) {
+    switch (difficulty) {
+        case 'easy':
+            return Math.floor(Math.random() * 10); // 0-9
+        case 'normal':
+            return Math.floor(Math.random() * 51); // 0-50
+        case 'hard':
+            return Math.floor(Math.random() * 101); // 0-100
+        default:
+            return 0;
+    }
+}
+
+function createTable(rows, cols, difficulty) {
+    tableContainer.innerHTML = '';
+    correctAnswer = 0; // Reset correct answer
+
+    for (let i = 0; i < rows; i++) {
+        let row = document.createElement('tr');
+        for (let j = 0; j < cols; j++) {
+            let cell = document.createElement('td');
+            let number = getRandomNumber(difficulty);
+            cell.textContent = number;
+            correctAnswer += number; // Accumulate the correct answer
+            row.appendChild(cell);
+        }
+        tableContainer.appendChild(row);
+    }
+
+    // Clear the answer input field and reset width when a new table is created
+    answerInput.value = '';
+    answerInput.style.width = defaultInputWidth; // Set width to default
+	timerDisplay.textContent = '00:00'; // Reset tampilan timer
+    timerDisplay.classList.remove('zoom-effect', 'red-text', 'second-only');
+}
+	
+function startTimer(duration) {
+	if (!duration || duration <= 0) {
+        alert("Timer belum diatur");
+        return;  // Hentikan eksekusi fungsi jika timer belum diatur
+    }
+    // Hentikan timer lama jika ada
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerDisplay.textContent = '00:00';
+        timerDisplay.classList.remove('zoom-effect','red-text','second-only');
+        if (!audio.paused) {
+            audio.pause(); // Hentikan audio jika masih diputar
+            audio.currentTime = 0; // Reset audio ke awal
+        }
+    }
+
+    let startTime = Date.now();
+    timeLeft = duration;
+    audio.loop = true; // Set audio to loop
+    audio.pause(); // Pastikan audio dalam keadaan pause saat timer dimulai
+
+    timerInterval = setInterval(() => {
+        let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+        timeLeft = duration - elapsedTime;
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+      
+		//jika waktu tersisa 10 detik atau kurang 
+        if (timeLeft <10) {
+            timerDisplay.classList.add('zoom-effect','second-only'); // Tambahkan efek zoom
+            timerDisplay.textContent = `${String(seconds).padStart(2, '0')}`; // Format detik dengan dua digit
+			timerDisplay.style.color='red';
+if (audio.paused) {
+                audio.play(); // Mulai memutar audio
+            }
+        } else {
+			timerDisplay.classList.remove('seconds-only'); // Hapus format detik jika waktu lebih dari 10 detik
+            timerDisplay.style.color='';
+			timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            if (!audio.paused) {
+                audio.pause(); // Hentikan audio jika waktu lebih dari 10 detik
+            }
+        }
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            timerDisplay.textContent = '00:00';
+            timerDisplay.classList.remove('zoom-effect');
+            if (!audio.paused) {
+                audio.pause(); // Hentikan audio
+                audio.currentTime = 0; // Reset audio ke awal
+            }
+        }
+    }, 1000);
+}
+function appendToAnswerInput(value) {
+    answerInput.value += value;
+    updateInputWidth(); // Update width after appending character
+}
+
+function deleteLastCharacter() {
+    answerInput.value = answerInput.value.slice(0, -1);
+    updateInputWidth(); // Update width after deleting character
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Set lebar default kolom input saat halaman dimuat
+    answerInput.style.width = '100px';
+});
+
+function updateInputWidth() {
+    const length = answerInput.value.length;
+    const minLength = 100; // Minimum length in pixels
+    const charWidth = 20; // Approximate character width (in px)
+
+    // Adjust input width based on character length
+    answerInput.style.width = `${Math.max(minLength, length * charWidth)}px`;
+}
+
+function checkAnswer() {
+    let userAnswer = parseInt(answerInput.value);
+    let isCorrect = userAnswer === correctAnswer;
+
+    if (isCorrect) {
+		//animasi dan audio saat jawaban benar
+        answerInput.classList.add('blink-green');
+        let correctAudio = new Audio('correct.mp3');
+        correctAudio.play();
+		//menghentikan timer jika jawaban benar
+		if(timerInterval){
+			clearInterval(timerInterval);//menghentikan interval Timer
+			}
+		//hentikan suara countdount
+		if(!audio.paused){
+			audio.pause();
+			audio.currentTime=0;
+			}
+    } else {
+        answerInput.classList.add('blink-red');
+        let incorrectAudio = new Audio('incorrect.mp3');
+        incorrectAudio.play();
+        answerInput.value = ''; // Clear input field if answer is incorrect
+        answerInput.style.width = defaultInputWidth; // Reset width to default
+    }
+
+    setTimeout(() => {
+        answerInput.classList.remove('blink-red', 'blink-green');
+    }, 400);
+}
+
+document.getElementById('generate-table-button').addEventListener('click', () => {
+    let rows = parseInt(document.getElementById('rows-input').value);
+    let cols = parseInt(document.getElementById('cols-input').value);
+    let difficulty = document.getElementById('difficulty-select').value;
+    createTable(rows, cols, difficulty);
+	
+	document.getElementById('instruction-text').style.display = 'block';
+});
+
+document.getElementById('set-timer-button').addEventListener('click', () => {
+    let duration = parseInt(document.getElementById('timer-input').value);
+    startTimer(duration);
+});
+
+document.getElementById('reset-timer-button').addEventListener('click', () => {
+    clearInterval(timerInterval);
+    timerDisplay.textContent = '00:00';
+    timerDisplay.classList.remove('zoom-effect');
+    audio.pause();
+    audio.currentTime = 0;
+});
+
+</script>
+
+
+</body>
+</html>
